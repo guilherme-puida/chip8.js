@@ -221,6 +221,16 @@ class Chip8 {
     const ds = [d1, d2, d3, d4].map((x) => x.toString(16));
     throw new Error(`Uninplemented opcode ${op} (${ds})`)
   }
+
+  #push(value) {
+    this.#stack[this.#sp] = value;
+    this.#sp++;
+  }
+
+  #pop() {
+    this.#sp--;
+    return this.#stack[this.#sp];
+  }
 }
 
 const SCALE = 5;
