@@ -211,20 +211,18 @@ class Chip8 {
     // 8XY4: VX += VY
     if (d1 === 8 && d4 === 4) {
       const newVx = this.#vreg[d2] + this.#vreg[d3];
-      if (newVx > 255) {
-        this.#vreg[0xF] = 1;
-      }
+      const newVf = newVx > 255 ? 1 : 0;
       this.#vreg[d2] = mod(newVx, 256);
+      this.#vreg[0xF] = newVf;
       return;
     }
 
     // 8XY5: VX -= VY
     if (d1 === 8 && d4 === 5) {
       const newVx = this.#vreg[d2] - this.#vreg[d3];
-      if (newVx < 0) {
-        this.#vreg[0xF] = 0;
-      }
-      this.#vreg[d2] = newVx;
+      const newVf = newVx < 0 ? 0 : 1;
+      this.#vreg[d2] = mod(newVx, 256);
+      this.#vreg[0xF] = newVf;
       return;
     }
 
@@ -239,10 +237,9 @@ class Chip8 {
     // 8XY7: VX =- VY
     if (d1 === 8 && d4 === 7) {
       const newVx = this.#vreg[d3] - this.#vreg[d2];
-      if (newVx < 0) {
-        this.#vreg[0xF] = 0;
-      }
-      this.#vreg[d2] = newVx;
+      const newVf = newVx < 0 ? 0 : 1;
+      this.#vreg[d2] = mod(newVx, 256);
+      this.#vreg[0xF] = newVf;
       return;
     }
 
