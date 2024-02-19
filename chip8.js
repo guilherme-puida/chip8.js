@@ -303,6 +303,14 @@ class Chip8 {
       return;
     }
 
+    // EXA1: SKIP IF VX NOT PRESSED
+    if (d1 === 0xE && d3 === 0xA && d4 === 1) {
+      if (!this.#keys[this.#vreg[d2]]) {
+        this.#pc += 2;
+      }
+      return;
+    }
+
     // FX15: DT = VX
     if (d1 === 0xF && d3 === 1 && d4 === 5) {
       this.#dt = this.#vreg[d2];
