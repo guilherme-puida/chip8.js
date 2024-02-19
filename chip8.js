@@ -25,7 +25,7 @@ class Chip8 {
   }
 
   reset() {
-    this.#pc = 0;
+    this.#pc = START_ADDRESS;
     this.#ireg = 0;
 
     this.#ram = new Uint8Array(RAM_SIZE);
