@@ -1,3 +1,7 @@
+function mod(n, m) {
+  return ((n % m) + m) % m;
+}
+
 const SCREEN_WIDTH = 64;
 const SCREEN_HEIGHT = 32;
 
@@ -130,6 +134,13 @@ class Chip8 {
     if (d1 === 6) {
       const nn = (op & 0xFF);
       this.#vreg[d2] = nn;
+      return;
+    }
+
+    // 7XNN: VX += NN
+    if (d1 === 7) {
+      const nn = op & 0xFF;
+      this.#vreg[d2] = mod(this.#vreg[d2] + nn, 256);
       return;
     }
 
