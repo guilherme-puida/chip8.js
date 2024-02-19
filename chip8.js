@@ -303,6 +303,12 @@ class Chip8 {
       return;
     }
 
+    // FX15: DT = VX
+    if (d1 === 0xF && d3 === 1 && d4 === 5) {
+      this.#dt = this.#vreg[d2];
+      return;
+    }
+
     // FX07: VX = DT
     if (d1 === 0xF && d3 === 0 && d4 === 7) {
       this.#vreg[d2] = this.#dt;
