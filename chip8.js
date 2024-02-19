@@ -414,7 +414,7 @@ function keyCodeToButton(keyCode) {
     case "KeyW": return 0x5;
     case "KeyE": return 0x6;
     case "KeyR": return 0xD;
-    case "KeyA": return 0xA;
+    case "KeyA": return 0x7;
     case "KeyS": return 0x8;
     case "KeyD": return 0x9;
     case "KeyF": return 0xE;
