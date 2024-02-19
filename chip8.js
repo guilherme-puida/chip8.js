@@ -73,14 +73,14 @@ class Chip8 {
     this.#execute(op);
   }
 
-  tickTimers() {
+  tickTimers(onBeep) {
     if (this.#dt > 0) {
       this.#dt--;
     }
 
     if (this.#st > 0) {
       if (this.#st === 1) {
-        // TODO: beep here
+        onBeep();
       }
 
       this.#st--;
@@ -447,6 +447,22 @@ function keyCodeToButton(keyCode) {
   }
 }
 
+function beep() {
+  const AudioContext = window.AudioContext || window.webkitAutioContext;
+  const audioContext = new AudioContext();
+  const oscillator = audioContext.createOscillator();
+
+  const type = 4; // Square wave
+
+  oscillator.type = type;
+  oscillator.connect(audioContext.destination);
+
+  oscillator.start();
+  setTimeout(() => {
+    oscillator.stop();
+  }, 100);
+}
+
 const SCALE = 5;
 const GAME_WIDTH = SCREEN_WIDTH * SCALE;
 const GAME_HEIGHT = SCREEN_HEIGHT * SCALE;
@@ -484,7 +500,7 @@ $rom.addEventListener("change", async() => {
     for (let i = 0; i < 10; i++) {
       chip8.tick()
     }
-    chip8.tickTimers();
+    chip8.tickTimers(beep);
 
     draw();
     window.requestAnimationFrame(loop);
