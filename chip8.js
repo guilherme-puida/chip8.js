@@ -359,6 +359,12 @@ class Chip8 {
       return;
     }
 
+    // FX18: ST = VX
+    if (d1 === 0xF && d3 === 1 && d4 === 8) {
+      this.#st = this.#vreg[d2];
+      return;
+    }
+
     // FX1E: I += VX
     if (d1 === 0xF && d3 === 1 && d4 === 0xE) {
       const newI = this.#ireg + this.#vreg[d2];
