@@ -435,14 +435,14 @@ $rom.addEventListener("change", async() => {
   }
 
   $game.addEventListener("keydown", (e) => {
-    const button = keyCodeToButton(e.keyCode);
+    const button = keyCodeToButton(e.code);
     if (button !== undefined) {
       chip8.keypress(button, true);
     }
   });
 
   $game.addEventListener("keyup", (e) => {
-    const button = keyCodeToButton(e.keyCode);
+    const button = keyCodeToButton(e.code);
     if (button !== undefined) {
       chip8.keypress(button, false);
     }
