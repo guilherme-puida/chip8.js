@@ -447,20 +447,25 @@ function keyCodeToButton(keyCode) {
   }
 }
 
+const $volume = document.getElementById("volume");
+
 function beep() {
-  const AudioContext = window.AudioContext || window.webkitAutioContext;
-  const audioContext = new AudioContext();
-  const oscillator = audioContext.createOscillator();
+  return () => {
+    const AudioContext = window.AudioContext || window.webkitAutioContext;
+    const audioContext = new AudioContext();
 
-  const type = 4; // Square wave
+    const gain = audioContext.createGain();
+    const volume = $volume.value;
+    gain.connect(audioContext.destination);
+    gain.gain.value = volume * 0.01;
 
-  oscillator.type = type;
-  oscillator.connect(audioContext.destination);
+    const oscillator = audioContext.createOscillator();
+    oscillator.type = "square";
 
-  oscillator.start();
-  setTimeout(() => {
-    oscillator.stop();
-  }, 100);
+    oscillator.connect(gain);
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 50 * 0.001);
+  }
 }
 
 const SCALE = 5;
@@ -500,7 +505,7 @@ $rom.addEventListener("change", async() => {
     for (let i = 0; i < 10; i++) {
       chip8.tick()
     }
-    chip8.tickTimers(beep);
+    chip8.tickTimers(beep());
 
     draw();
     window.requestAnimationFrame(loop);
