@@ -83,6 +83,12 @@ class Chip8 {
     }
   }
 
+  load(data) {
+    for (let i = 0; i < data.length; i++) {
+      this.#ram[START_ADDRESS + i] = data[i];
+    }
+  }
+
   #fetch() {
     const high = this.#ram[this.#pc];
     const low = this.#ram[this.#pc + 1];
@@ -109,3 +115,13 @@ const GAME_HEIGHT = SCREEN_HEIGHT * SCALE;
 const $game = document.getElementById("game");
 $game.width = GAME_WIDTH;
 $game.height = GAME_HEIGHT;
+
+const $rom = document.getElementById("rom");
+$rom.addEventListener("change", async() => {
+  const rom = $rom.files[0];
+  const buffer = await rom.arrayBuffer();
+  const uint8Buffer = new Uint8Array(buffer);
+
+  const chip8 = new Chip8();
+  chip8.load(uint8Buffer);
+});
