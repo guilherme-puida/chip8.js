@@ -332,6 +332,18 @@ class Chip8 {
       return;
     }
 
+    // FX0A: WAIT FOR KEYPRESS
+    if (d1 === 0xF && d3 === 0 && d4 === 0xA) {
+      for (let i = 0; i < NUM_KEYS; i++) {
+        if (this.#keys[i]) {
+          this.#vreg[d2] = i;
+          return;
+        }
+      }
+      this.#pc -= 2;
+      return;
+    }
+
     // FX15: DT = VX
     if (d1 === 0xF && d3 === 1 && d4 === 5) {
       this.#dt = this.#vreg[d2];
