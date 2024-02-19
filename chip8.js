@@ -302,6 +302,15 @@ class Chip8 {
       return;
     }
 
+    // FX65: LOAD I INTO V0-VX
+    if (d1 === 0xF && d3 === 6 && d4 === 5) {
+      for (let i = 0; i <= d2; i++) {
+        this.#vreg[i] = this.#ram[this.#ireg + i];
+      }
+      this.#ireg += d2 + 1;
+      return;
+    }
+
     const ds = [d1, d2, d3, d4].map((x) => x.toString(16));
     throw new Error(`Uninplemented opcode ${op} (${ds})`)
   }
