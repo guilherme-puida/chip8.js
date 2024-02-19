@@ -123,6 +123,12 @@ class Chip8 {
       return;
     }
 
+    // 00EE: RETURN
+    if (d1 === 0 && d2 === 0 && d3 === 0xE && d4 === 0xE) {
+      this.#pc = this.#pop();
+      return;
+    }
+
     // 1NNN: JUMP
     if (d1 === 1) {
       const nnn = op & 0xFFF;
