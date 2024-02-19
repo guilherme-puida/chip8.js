@@ -357,6 +357,12 @@ class Chip8 {
       return;
     }
 
+    // FX29: SET I TO FONT ADDRESS
+    if (d1 === 0xF && d3 === 2 && d4 === 9) {
+      this.#ireg = this.#vreg[d2] * 5;
+      return;
+    }
+
     // FX33: STORE BCD
     if (d1 === 0xF && d3 === 3 && d4 === 3) {
       const vx = this.#vreg[d2];
