@@ -139,6 +139,15 @@ class Chip8 {
       return;
     }
 
+    // 4XNN: SKIP VX != NN
+    if (d1 === 4) {
+      const nn = op & 0xFF;
+      if (this.#vreg[d2] !== nn) {
+        this.#pc += 2;
+      }
+      return;
+    }
+
     // 6XNN: VX = NN
     if (d1 === 6) {
       const nn = (op & 0xFF);
