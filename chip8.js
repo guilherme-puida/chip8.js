@@ -41,3 +41,11 @@ class Chip8 {
     this.#st = 0;
   }
 }
+
+const SCALE = 5;
+const GAME_WIDTH = SCREEN_WIDTH * SCALE;
+const GAME_HEIGHT = SCREEN_HEIGHT * SCALE;
+
+const $game = document.getElementById("game");
+$game.width = GAME_WIDTH;
+$game.height = GAME_HEIGHT;
