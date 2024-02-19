@@ -302,6 +302,20 @@ class Chip8 {
       return;
     }
 
+    // FX33: STORE BCD
+    if (d1 === 0xF && d3 === 3 && d4 === 3) {
+      const vx = this.#vreg[d2];
+
+      const hundreds = Math.floor(vx / 100);
+      const tens = Math.floor((vx / 10) % 10);
+      const ones = Math.floor(vx % 10);
+
+      this.#ram[this.#ireg] = hundreds;
+      this.#ram[this.#ireg + 1] = tens;
+      this.#ram[this.#ireg + 2] = ones;
+      return;
+    }
+
     // FX55: STORE V0-VX
     if (d1 === 0xF && d3 === 5 && d4 === 5) {
       for (let i = 0; i <= d2; i++) {
