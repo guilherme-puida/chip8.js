@@ -263,6 +263,13 @@ class Chip8 {
       return;
     }
 
+    // BNNN: JUMP NNN + V0
+    if (d1 === 0xB) {
+      const nnn = op & 0xFFF;
+      this.#pc = this.#vreg[0] + nnn;
+      return;
+    }
+
     // ANNN: I = NNN
     if (d1 === 0xA) {
       const nnn = (op & 0xFFF);
