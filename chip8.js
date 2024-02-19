@@ -129,7 +129,8 @@ class Chip8 {
       return;
     }
 
-    throw new Error(`Uninplemented opcode ${op} (${d1} ${d2} ${d3} ${d4})`)
+    const ds = [d1, d2, d3, d4].map((x) => x.toString(16));
+    throw new Error(`Uninplemented opcode ${op} (${ds})`)
   }
 }
 
