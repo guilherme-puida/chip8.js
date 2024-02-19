@@ -122,6 +122,13 @@ class Chip8 {
       return;
     }
 
+    // ANNN: I = NNN
+    if (d1 === 0xA) {
+      const nnn = (op & 0xFFF);
+      this.#ireg = nnn;
+      return;
+    }
+
     throw new Error(`Uninplemented opcode ${op} (${d1} ${d2} ${d3} ${d4})`)
   }
 }
