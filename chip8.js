@@ -66,6 +66,7 @@ class Chip8 {
 
   tick() {
     const op = this.#fetch();
+    this.#execute(op);
   }
 
   tickTimers() {
@@ -89,6 +90,15 @@ class Chip8 {
 
     this.#pc += 2;
     return op;
+  }
+
+  #execute(op) {
+    const d1 = (op & 0xF000) >>> 12;
+    const d2 = (op & 0x0F00) >>> 8;
+    const d3 = (op & 0x00F0) >>> 4;
+    const d4 = (op & 0x000F);
+
+    throw new Error(`Uninplemented opcode ${op} (${d1} ${d2} ${d3} ${d4})`)
   }
 }
 
