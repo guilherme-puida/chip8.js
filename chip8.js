@@ -302,6 +302,15 @@ class Chip8 {
       return;
     }
 
+    // FX55: STORE V0-VX
+    if (d1 === 0xF && d3 === 5 && d4 === 5) {
+      for (let i = 0; i <= d2; i++) {
+        this.#ram[this.#ireg + i] = this.#vreg[i];
+      }
+      this.#ireg += d2 + 1;
+      return;
+    }
+
     // FX65: LOAD I INTO V0-VX
     if (d1 === 0xF && d3 === 6 && d4 === 5) {
       for (let i = 0; i <= d2; i++) {
