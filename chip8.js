@@ -115,6 +115,13 @@ class Chip8 {
       return;
     }
 
+    // 6XNN: VX = NN
+    if (d1 === 6) {
+      const nn = (op & 0xFF);
+      this.#vreg[d2] = nn;
+      return;
+    }
+
     throw new Error(`Uninplemented opcode ${op} (${d1} ${d2} ${d3} ${d4})`)
   }
 }
