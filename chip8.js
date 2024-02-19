@@ -124,4 +124,11 @@ $rom.addEventListener("change", async() => {
 
   const chip8 = new Chip8();
   chip8.load(uint8Buffer);
+
+  function loop() {
+    chip8.tick();
+    window.requestAnimationFrame(loop);
+  }
+
+  window.requestAnimationFrame(loop);
 });
