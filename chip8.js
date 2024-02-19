@@ -303,6 +303,14 @@ class Chip8 {
       return;
     }
 
+    // EX9E: SKIP IF VX PRESSED
+    if (d1 === 0xE && d3 === 9 && d4 === 0xE) {
+      if (this.#keys[this.#vreg[d2]]) {
+        this.#pc += 2;
+      }
+      return;
+    }
+
     // EXA1: SKIP IF VX NOT PRESSED
     if (d1 === 0xE && d3 === 0xA && d4 === 1) {
       if (!this.#keys[this.#vreg[d2]]) {
