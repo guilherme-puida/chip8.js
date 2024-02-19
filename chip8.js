@@ -130,6 +130,14 @@ class Chip8 {
       return;
     }
 
+    // 2NNN: CALL
+    if (d1 === 2) {
+      const nnn = op & 0xFFF;
+      this.#push(this.#pc);
+      this.#pc = nnn;
+      return;
+    }
+
     // 3XNN: SKIP VX == NN
     if (d1 === 3) {
       const nn = op & 0xFF;
