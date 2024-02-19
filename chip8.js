@@ -129,6 +129,39 @@ class Chip8 {
       return;
     }
 
+    // DXYN: DRAW SPRITE
+    if (d1 === 0xD) {
+      const xCoord = this.#vreg[d2];
+      const yCoord = this.#vreg[d3];
+      const numRows = d4;
+
+      let flipped = false;
+
+      for (let yLine = 0; yLine < numRows; yLine++) {
+        const address = this.#ireg + yLine;
+        const pixels = this.#ram[address];
+
+        for (let xLine = 0; xLine < 8; xLine++) {
+          if ((pixels & (0b1000_0000 >>> xLine)) !== 0) {
+            const x = (xCoord + xLine) % SCREEN_WIDTH;
+            const y = (yCoord + yLine) % SCREEN_HEIGHT;
+            const i = x + SCREEN_WIDTH * y;
+
+            flipped = Boolean(flipped | this.#screen[i]);
+            this.#screen[i] = Boolean(this.#screen[i] ^ true);
+          }
+        }
+      }
+
+      if (flipped) {
+        this.#vreg[0xF] = 1;
+      } else {
+        this.#vreg[0xF] = 0;
+      }
+
+      return;
+    }
+
     const ds = [d1, d2, d3, d4].map((x) => x.toString(16));
     throw new Error(`Uninplemented opcode ${op} (${ds})`)
   }
