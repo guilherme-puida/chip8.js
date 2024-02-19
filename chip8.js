@@ -104,6 +104,11 @@ class Chip8 {
     const d3 = (op & 0x00F0) >>> 4;
     const d4 = (op & 0x000F);
 
+    // 0000: NOP
+    if (d1 === 0 && d2 === 0 && d3 === 0 && d4 === 0) {
+      return;
+    }
+
     throw new Error(`Uninplemented opcode ${op} (${d1} ${d2} ${d3} ${d4})`)
   }
 }
