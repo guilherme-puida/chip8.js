@@ -228,6 +228,14 @@ class Chip8 {
       return;
     }
 
+    // 8XY6: VX = VY >> 1
+    if (d1 === 8 && d4 === 6) {
+      const lsb = this.#vreg[d2] & 1;
+      this.#vreg[d2] = this.#vreg[d3] >>> 1;
+      this.#vreg[0xF] = lsb;
+      return;
+    }
+
     // 8XY7: VX =- VY
     if (d1 === 8 && d4 === 7) {
       const newVx = this.#vreg[d3] - this.#vreg[d2];
