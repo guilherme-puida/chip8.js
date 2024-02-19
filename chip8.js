@@ -246,6 +246,14 @@ class Chip8 {
       return;
     }
 
+    // 8XYE: VX = VY << 1
+    if (d1 === 8 && d4 === 0XE) {
+      const msb = (this.#vreg[d2] >>> 7) & 1;
+      this.#vreg[d2] = this.#vreg[d3] << 1;
+      this.#vreg[0xF] = msb;
+      return;
+    }
+
     // 9XY0: SKIP VX != VY
     if (d1 === 9 && d4 === 0) {
       if (this.#vreg[d2] !== this.#vreg[d3]) {
