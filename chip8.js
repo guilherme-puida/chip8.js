@@ -63,6 +63,19 @@ class Chip8 {
       this.#ram[i] = FONTSET[i];
     }
   }
+
+  tick() {
+    const op = this.#fetch();
+  }
+
+  #fetch() {
+    const high = this.#ram[this.#pc];
+    const low = this.#ram[this.#pc + 1];
+    const op = (high << 8) | low;
+
+    this.#pc += 2;
+    return op;
+  }
 }
 
 const SCALE = 5;
