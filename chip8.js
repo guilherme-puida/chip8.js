@@ -119,6 +119,13 @@ class Chip8 {
       return;
     }
 
+    // 1NNN: JUMP
+    if (d1 === 1) {
+      const nnn = op & 0xFFF;
+      this.#pc = nnn;
+      return;
+    }
+
     // 6XNN: VX = NN
     if (d1 === 6) {
       const nn = (op & 0xFF);
