@@ -97,6 +97,10 @@ class Chip8 {
     return this.#screen.slice();
   }
 
+  keypress(index, pressed) {
+    this.#keys[index] = pressed;
+  }
+
   #fetch() {
     const high = this.#ram[this.#pc];
     const low = this.#ram[this.#pc + 1];
