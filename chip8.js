@@ -89,6 +89,10 @@ class Chip8 {
     }
   }
 
+  screen() {
+    return this.#screen.slice();
+  }
+
   #fetch() {
     const high = this.#ram[this.#pc];
     const low = this.#ram[this.#pc + 1];
@@ -184,8 +188,25 @@ $rom.addEventListener("change", async() => {
   const chip8 = new Chip8();
   chip8.load(uint8Buffer);
 
+  const ctx = $game.getContext("2d");
+
+  function draw() {
+    ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+    const screen = chip8.screen()
+
+    for (let i = 0; i < screen.length; i++) {
+      const pixel = screen[i];
+      if (pixel) {
+        const x = i % SCREEN_WIDTH;
+        const y = i / SCREEN_WIDTH;
+        ctx.fillRect(x * SCALE, y * SCALE, SCALE, SCALE)
+      }
+    }
+  }
+
   function loop() {
     chip8.tick();
+    draw();
     window.requestAnimationFrame(loop);
   }
 
