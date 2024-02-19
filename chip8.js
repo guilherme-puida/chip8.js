@@ -109,6 +109,12 @@ class Chip8 {
       return;
     }
 
+    // 00E0: CLEAR SCREEN
+    if (d1 === 0 && d2 === 0 && d3 === 0xE && d4 === 0) {
+      this.#screen = new Array(SCREEN_WIDTH * SCREEN_HEIGHT).fill(false);
+      return;
+    }
+
     throw new Error(`Uninplemented opcode ${op} (${d1} ${d2} ${d3} ${d4})`)
   }
 }
