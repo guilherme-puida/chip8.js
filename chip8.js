@@ -277,6 +277,15 @@ class Chip8 {
       return;
     }
 
+    // CXNN: VX = RAND() & NN
+    if (d1 === 0xC) {
+      const nn = op & 0xFF;
+      // TODO: make this seedable.
+      const rand = Math.random() * 256;
+      this.#vreg[d2] = rand & nn;
+      return;
+    }
+
     // DXYN: DRAW SPRITE
     if (d1 === 0xD) {
       const xCoord = this.#vreg[d2];
