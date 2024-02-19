@@ -383,7 +383,9 @@ $rom.addEventListener("change", async() => {
   }
 
   function loop() {
-    chip8.tick();
+    for (let i = 0; i < 10; i++) {
+      chip8.tick()
+    }
     draw();
     window.requestAnimationFrame(loop);
   }
