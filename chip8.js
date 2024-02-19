@@ -302,6 +302,13 @@ class Chip8 {
       return;
     }
 
+    // FX1E: I += VX
+    if (d1 === 0xF && d3 === 1 && d4 === 0xE) {
+      const newI = this.#ireg + this.#vreg[d2];
+      this.#ireg = mod(newI, 32768);
+      return;
+    }
+
     // FX33: STORE BCD
     if (d1 === 0xF && d3 === 3 && d4 === 3) {
       const vx = this.#vreg[d2];
