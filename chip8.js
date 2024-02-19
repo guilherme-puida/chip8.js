@@ -68,6 +68,20 @@ class Chip8 {
     const op = this.#fetch();
   }
 
+  tickTimers() {
+    if (this.#dt > 0) {
+      this.#dt--;
+    }
+
+    if (this.#st > 0) {
+      if (this.#st === 1) {
+        // TODO: beep here
+      }
+
+      this.#st--;
+    }
+  }
+
   #fetch() {
     const high = this.#ram[this.#pc];
     const low = this.#ram[this.#pc + 1];
