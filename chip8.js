@@ -476,13 +476,15 @@ const $game = document.getElementById("game");
 $game.width = GAME_WIDTH;
 $game.height = GAME_HEIGHT;
 
+const chip8 = new Chip8();
+
 const $rom = document.getElementById("rom");
 $rom.addEventListener("change", async() => {
   const rom = $rom.files[0];
   const buffer = await rom.arrayBuffer();
   const uint8Buffer = new Uint8Array(buffer);
 
-  const chip8 = new Chip8();
+  chip8.reset()
   chip8.load(uint8Buffer);
 
   const ctx = $game.getContext("2d");
