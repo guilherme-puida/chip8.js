@@ -357,6 +357,28 @@ class Chip8 {
   }
 }
 
+function keyCodeToButton(keyCode) {
+  switch (keyCode) {
+    case "Digit1": return 0x1;
+    case "Digit2": return 0x2;
+    case "Digit3": return 0x3;
+    case "Digit4": return 0xC;
+    case "KeyQ": return 0x4;
+    case "KeyW": return 0x5;
+    case "KeyE": return 0x6;
+    case "KeyR": return 0xD;
+    case "KeyA": return 0xA;
+    case "KeyS": return 0x8;
+    case "KeyD": return 0x9;
+    case "KeyF": return 0xE;
+    case "KeyZ": return 0xA;
+    case "KeyX": return 0x0;
+    case "KeyC": return 0xB;
+    case "KeyV": return 0xF;
+    default: return undefined;
+  }
+}
+
 const SCALE = 5;
 const GAME_WIDTH = SCREEN_WIDTH * SCALE;
 const GAME_HEIGHT = SCREEN_HEIGHT * SCALE;
@@ -399,6 +421,20 @@ $rom.addEventListener("change", async() => {
     draw();
     window.requestAnimationFrame(loop);
   }
+
+  $game.addEventListener("keydown", (e) => {
+    const button = keyCodeToButton(e.keyCode);
+    if (button !== undefined) {
+      chip8.keypress(button, true);
+    }
+  });
+
+  $game.addEventListener("keyup", (e) => {
+    const button = keyCodeToButton(e.keyCode);
+    if (button !== undefined) {
+      chip8.keypress(button, false);
+    }
+  });
 
   window.requestAnimationFrame(loop);
 });
