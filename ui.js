@@ -28,20 +28,21 @@ const keyCodeToButton = {
   KeyV: 0xF,
 };
 
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+
 function beep() {
+  const audioContext = new AudioContext();
+  const gain = audioContext.createGain();
+
+  const oscillator = audioContext.createOscillator();
+  oscillator.type = "square";
+
+  gain.connect(audioContext.destination);
+  oscillator.connect(gain);
+
   return () => {
-    const AudioContext = window.AudioContext || window.webkitAutioContext;
-    const audioContext = new AudioContext();
+    gain.gain.value = Number(dom.volume.value) * 0.01;
 
-    const gain = audioContext.createGain();
-    const volume = dom.volume.value;
-    gain.connect(audioContext.destination);
-    gain.gain.value = volume * 0.01;
-
-    const oscillator = audioContext.createOscillator();
-    oscillator.type = "square";
-
-    oscillator.connect(gain);
     oscillator.start(audioContext.currentTime);
     oscillator.stop(audioContext.currentTime + 50 * 0.001);
   }
