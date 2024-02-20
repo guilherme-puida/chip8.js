@@ -9,27 +9,24 @@ const dom = {
   rom: $("#rom"),
 };
 
-function keyCodeToButton(keyCode) {
-  switch (keyCode) {
-    case "Digit1": return 0x1;
-    case "Digit2": return 0x2;
-    case "Digit3": return 0x3;
-    case "Digit4": return 0xC;
-    case "KeyQ": return 0x4;
-    case "KeyW": return 0x5;
-    case "KeyE": return 0x6;
-    case "KeyR": return 0xD;
-    case "KeyA": return 0x7;
-    case "KeyS": return 0x8;
-    case "KeyD": return 0x9;
-    case "KeyF": return 0xE;
-    case "KeyZ": return 0xA;
-    case "KeyX": return 0x0;
-    case "KeyC": return 0xB;
-    case "KeyV": return 0xF;
-    default: return undefined;
-  }
-}
+const keyCodeToButton = {
+  Digit1: 0x1,
+  Digit2: 0x2,
+  Digit3: 0x3,
+  Digit4: 0xC,
+  KeyQ: 0x4,
+  KeyW: 0x5,
+  KeyE: 0x6,
+  KeyR: 0xD,
+  KeyA: 0x7,
+  KeyS: 0x8,
+  KeyD: 0x9,
+  KeyF: 0xE,
+  KeyZ: 0xA,
+  KeyX: 0x0,
+  KeyC: 0xB,
+  KeyV: 0xF,
+};
 
 function beep() {
   return () => {
@@ -103,14 +100,14 @@ dom.rom.addEventListener("change", async() => {
   }
 
   dom.game.addEventListener("keydown", (e) => {
-    const button = keyCodeToButton(e.code);
+    const button = keyCodeToButton[e.code];
     if (button !== undefined) {
       chip8.keypress(button, true);
     }
   });
 
   dom.game.addEventListener("keyup", (e) => {
-    const button = keyCodeToButton(e.code);
+    const button = keyCodeToButton[e.code];
     if (button !== undefined) {
       chip8.keypress(button, false);
     }
