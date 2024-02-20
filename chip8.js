@@ -499,8 +499,8 @@ $rom.addEventListener("change", async() => {
     for (let i = 0; i < screen.length; i++) {
       const pixel = screen[i];
       if (pixel) {
-        const x = i % SCREEN_WIDTH;
-        const y = i / SCREEN_WIDTH;
+        const x = Math.floor(i % SCREEN_WIDTH);
+        const y = Math.floor(i / SCREEN_WIDTH);
         ctx.fillRect(x * SCALE, y * SCALE, SCALE, SCALE)
       }
     }
