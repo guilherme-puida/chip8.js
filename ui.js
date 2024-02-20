@@ -1,5 +1,14 @@
 import { SCREEN_HEIGHT, SCREEN_WIDTH, Chip8 } from "./chip8.js";
 
+const $ = document.querySelector.bind(document);
+
+const dom = {
+  volume: $("#volume"),
+  size: $("#size"),
+  game: $("#game"),
+  rom: $("#rom"),
+};
+
 function keyCodeToButton(keyCode) {
   switch (keyCode) {
     case "Digit1": return 0x1;
@@ -22,15 +31,13 @@ function keyCodeToButton(keyCode) {
   }
 }
 
-const $volume = document.getElementById("volume");
-
 function beep() {
   return () => {
     const AudioContext = window.AudioContext || window.webkitAutioContext;
     const audioContext = new AudioContext();
 
     const gain = audioContext.createGain();
-    const volume = $volume.value;
+    const volume = dom.volume.value;
     gain.connect(audioContext.destination);
     gain.gain.value = volume * 0.01;
 
@@ -43,37 +50,33 @@ function beep() {
   }
 }
 
-const $size = document.getElementById("size");
-const $game = document.getElementById("game");
-
 let scale;
 let gameWidth;
 let gameHeight;
 
 function resize() {
-  scale = $size.value;
+  scale = dom.size.value;
   gameWidth = SCREEN_WIDTH * scale;
   gameHeight = SCREEN_HEIGHT * scale;
 
-  $game.width = gameWidth;
-  $game.height = gameHeight;
+  dom.game.width = gameWidth;
+  dom.game.height = gameHeight;
 }
 
-$size.addEventListener("change", resize);
+dom.size.addEventListener("change", resize);
 document.addEventListener("DOMContentLoaded", resize);
 
 const chip8 = new Chip8();
 
-const $rom = document.getElementById("rom");
-$rom.addEventListener("change", async() => {
-  const rom = $rom.files[0];
+dom.rom.addEventListener("change", async() => {
+  const rom = dom.rom.files[0];
   const buffer = await rom.arrayBuffer();
   const uint8Buffer = new Uint8Array(buffer);
 
   chip8.reset()
   chip8.load(uint8Buffer);
 
-  const ctx = $game.getContext("2d");
+  const ctx = dom.game.getContext("2d");
 
   function draw() {
     ctx.clearRect(0, 0, gameWidth, gameHeight);
@@ -99,14 +102,14 @@ $rom.addEventListener("change", async() => {
     window.requestAnimationFrame(loop);
   }
 
-  $game.addEventListener("keydown", (e) => {
+  dom.game.addEventListener("keydown", (e) => {
     const button = keyCodeToButton(e.code);
     if (button !== undefined) {
       chip8.keypress(button, true);
     }
   });
 
-  $game.addEventListener("keyup", (e) => {
+  dom.game.addEventListener("keyup", (e) => {
     const button = keyCodeToButton(e.code);
     if (button !== undefined) {
       chip8.keypress(button, false);
