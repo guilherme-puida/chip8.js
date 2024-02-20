@@ -471,13 +471,24 @@ function beep() {
   }
 }
 
-const SCALE = 5;
-const GAME_WIDTH = SCREEN_WIDTH * SCALE;
-const GAME_HEIGHT = SCREEN_HEIGHT * SCALE;
-
+const $size = document.getElementById("size");
 const $game = document.getElementById("game");
-$game.width = GAME_WIDTH;
-$game.height = GAME_HEIGHT;
+
+let scale;
+let gameWidth;
+let gameHeight;
+
+function resize() {
+  scale = $size.value;
+  gameWidth = SCREEN_WIDTH * scale;
+  gameHeight = SCREEN_HEIGHT * scale;
+
+  $game.width = gameWidth;
+  $game.height = gameHeight;
+}
+
+$size.addEventListener("change", resize);
+document.addEventListener("DOMContentLoaded", resize);
 
 const chip8 = new Chip8();
 
@@ -493,7 +504,7 @@ $rom.addEventListener("change", async() => {
   const ctx = $game.getContext("2d");
 
   function draw() {
-    ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+    ctx.clearRect(0, 0, gameWidth, gameHeight);
     const screen = chip8.screen()
 
     for (let i = 0; i < screen.length; i++) {
@@ -501,7 +512,7 @@ $rom.addEventListener("change", async() => {
       if (pixel) {
         const x = Math.floor(i % SCREEN_WIDTH);
         const y = Math.floor(i / SCREEN_WIDTH);
-        ctx.fillRect(x * SCALE, y * SCALE, SCALE, SCALE)
+        ctx.fillRect(x * scale, y * scale, scale, scale)
       }
     }
   }
