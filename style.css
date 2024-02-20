@@ -3,5 +3,9 @@ body {
 }
 
 canvas {
-  border: 1px solid red;
+  outline: 1px solid red;
+}
+
+canvas:focus {
+  outline: 3px solid red;
 }
