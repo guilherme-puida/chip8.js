@@ -197,18 +197,21 @@ class Chip8 {
     // 8XY1: VX |= VY
     if (d1 === 8 && d4 === 1) {
       this.#vreg[d2] |= this.#vreg[d3];
+      this.#vreg[0xF] = 0;
       return;
     }
 
     // 8XY2: VX &= VY
     if (d1 === 8 && d4 === 2) {
       this.#vreg[d2] &= this.#vreg[d3];
+      this.#vreg[0xF] = 0;
       return;
     }
 
     // 8XY3: VX ^= VY
     if (d1 === 8 && d4 === 3) {
       this.#vreg[d2] ^= this.#vreg[d3];
+      this.#vreg[0xF] = 0;
       return;
     }
 
