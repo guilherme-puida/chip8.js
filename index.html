@@ -7,14 +7,22 @@
   </head>
   <body>
     <h1>chip8.js</h1>
-    <canvas id="game" tabindex="1" autofocus></canvas>
-    <input type="file" id="rom" />
-    <input type="range" id="volume" min="0" max="100" value="50" />
 
-    <select name="size" id="size">
-      <option value="5" selected>Small</option>
-      <option value="10">Medium</option>
-      <option value="15">Large</option>
-    </select>
+    <main>
+      <div>
+        <canvas id="game" tabindex="1" autofocus></canvas>
+      </div>
+
+      <div>
+        <input type="file" id="rom" />
+        <input type="range" id="volume" min="0" max="100" value="50" />
+
+        <select name="size" id="size">
+          <option value="5" selected>Small</option>
+          <option value="10">Medium</option>
+          <option value="15">Large</option>
+        </select>
+      </div>
+    </main>
   </body>
 </html>
