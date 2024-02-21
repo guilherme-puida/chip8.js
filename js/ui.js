@@ -1,4 +1,4 @@
-import { SCREEN_HEIGHT, SCREEN_WIDTH, Chip8 } from "./chip8.js";
+import { SCREEN_HEIGHT, SCREEN_WIDTH, Chip8 } from "@/chip8.js";
 
 const $ = document.querySelector.bind(document);
 
