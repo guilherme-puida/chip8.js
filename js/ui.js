@@ -104,19 +104,17 @@ dom.rom.addEventListener("change", async () => {
     window.requestAnimationFrame(loop);
   }
 
-  dom.game.addEventListener("keydown", (e) => {
-    const button = keyCodeToButton[e.code];
-    if (button !== undefined) {
-      chip8.keypress(button, true);
+  function makeKeycodeDetector(pressed) {
+    return (e) => {
+      const button = keyCodeToButton[e.code];
+      if (button !== undefined) {
+        chip8.keypress(button, pressed);
+      }
     }
-  });
+  }
 
-  dom.game.addEventListener("keyup", (e) => {
-    const button = keyCodeToButton[e.code];
-    if (button !== undefined) {
-      chip8.keypress(button, false);
-    }
-  });
+  dom.game.addEventListener("keydown", makeKeycodeDetector(true));
+  dom.game.addEventListener("keyup", makeKeycodeDetector(false));
 
   window.requestAnimationFrame(loop);
 });
