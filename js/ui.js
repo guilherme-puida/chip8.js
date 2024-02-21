@@ -28,6 +28,15 @@ const keyCodeToButton = {
   KeyV: 0xF,
 };
 
+function makeKeycodeDetector(pressed) {
+  return (e) => {
+    const button = keyCodeToButton[e.code];
+    if (button !== undefined) {
+      chip8.keypress(button, pressed);
+    }
+  }
+}
+
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioContext = new AudioContext();
 
@@ -67,16 +76,15 @@ dom.size.addEventListener("change", resize);
 document.addEventListener("DOMContentLoaded", resize);
 
 const chip8 = new Chip8();
+let playing = false;
 
-dom.rom.addEventListener("change", async () => {
-  const rom = dom.rom.files[0];
-  const buffer = await rom.arrayBuffer();
-  const uint8Buffer = new Uint8Array(buffer);
-
-  chip8.reset();
-  chip8.load(uint8Buffer);
+document.addEventListener("DOMContentLoaded", () => {
+  // Handle keypresses
+  dom.game.addEventListener("keydown", makeKeycodeDetector(true));
+  dom.game.addEventListener("keyup", makeKeycodeDetector(false));
 
   const ctx = dom.game.getContext("2d");
+  const beeper = beep();
 
   function draw() {
     ctx.clearRect(0, 0, gameWidth, gameHeight);
@@ -92,29 +100,28 @@ dom.rom.addEventListener("change", async () => {
     }
   }
 
-  const beeper = beep();
-
   function loop() {
-    for (let i = 0; i < 10; i++) {
-      chip8.tick();
-    }
-    chip8.tickTimers(beeper);
+    if (playing) {
+      for (let i = 0; i < 10; i++) {
+        chip8.tick();
+      }
+      chip8.tickTimers(beeper);
 
-    draw();
+      draw();
+    }
+
     window.requestAnimationFrame(loop);
   }
 
-  function makeKeycodeDetector(pressed) {
-    return (e) => {
-      const button = keyCodeToButton[e.code];
-      if (button !== undefined) {
-        chip8.keypress(button, pressed);
-      }
-    }
-  }
-
-  dom.game.addEventListener("keydown", makeKeycodeDetector(true));
-  dom.game.addEventListener("keyup", makeKeycodeDetector(false));
-
   window.requestAnimationFrame(loop);
+});
+
+dom.rom.addEventListener("change", async () => {
+  const rom = dom.rom.files[0];
+  const buffer = await rom.arrayBuffer();
+  const uint8Buffer = new Uint8Array(buffer);
+
+  chip8.reset();
+  chip8.load(uint8Buffer);
+  playing = true;
 });
