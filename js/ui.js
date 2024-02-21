@@ -73,14 +73,14 @@ dom.rom.addEventListener("change", async () => {
   const buffer = await rom.arrayBuffer();
   const uint8Buffer = new Uint8Array(buffer);
 
-  chip8.reset()
+  chip8.reset();
   chip8.load(uint8Buffer);
 
   const ctx = dom.game.getContext("2d");
 
   function draw() {
     ctx.clearRect(0, 0, gameWidth, gameHeight);
-    const screen = chip8.screen()
+    const screen = chip8.screen();
 
     for (let i = 0; i < screen.length; i++) {
       const pixel = screen[i];
