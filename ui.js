@@ -29,22 +29,24 @@ const keyCodeToButton = {
 };
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
+const audioContext = new AudioContext();
 
 function beep() {
-  const audioContext = new AudioContext();
   const gain = audioContext.createGain();
+  gain.gain.setValueAtTime(0, audioContext.currentTime);
 
   const oscillator = audioContext.createOscillator();
   oscillator.type = "square";
 
-  gain.connect(audioContext.destination);
-  oscillator.connect(gain);
+  oscillator.connect(gain).connect(audioContext.destination);
+
+  oscillator.start();
 
   return () => {
-    gain.gain.value = Number(dom.volume.value) * 0.01;
-
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 50 * 0.001);
+    const now = audioContext.currentTime;
+    const volume = dom.volume.value;
+    gain.gain.setTargetAtTime(volume * 0.01, now, 0.02);
+    gain.gain.setTargetAtTime(0, now + 50 * 0.001, 0.02);
   }
 }
 
@@ -90,11 +92,13 @@ dom.rom.addEventListener("change", async() => {
     }
   }
 
+  const beeper = beep();
+
   function loop() {
     for (let i = 0; i < 10; i++) {
-      chip8.tick()
+      chip8.tick();
     }
-    chip8.tickTimers(beep());
+    chip8.tickTimers(beeper);
 
     draw();
     window.requestAnimationFrame(loop);
