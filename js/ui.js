@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", resize);
 
 const chip8 = new Chip8();
 
-dom.rom.addEventListener("change", async() => {
+dom.rom.addEventListener("change", async () => {
   const rom = dom.rom.files[0];
   const buffer = await rom.arrayBuffer();
   const uint8Buffer = new Uint8Array(buffer);
